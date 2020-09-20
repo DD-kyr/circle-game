@@ -2,17 +2,46 @@
     <body>
         <h1>Hello</h1>
         <h2>world</h2>
+        <input type="number" id="step" value="0" min="0">
         <h1 id="result"></h1>
         <button onclick="countUp()">Count UP!</button>
+        <button onclick="countDown()">Count Down!</button>
+        <button onclick="reset()">reset</button>
     </body>
     <script>
         let x = 5;
-        document.getElementById("result").innerHTML = x;
+        let y = x;
+        display(x);
+
+        function reset() {
+            console.log("reset");
+            display(y);
+            x = y;
+        }
 
         function countUp() {
-            console.log("Hi Haiii");
-            x = x + 1;
-            document.getElementById("result").innerHTML = x;
+            console.log("count up");
+            value = document.getElementById("step").value
+            console.log("value", value);
+            x = x + parseInt(value);
+
+            display(x);
         }
+        function countDown() {
+            console.log("count down");
+            if(x >= 0){
+                value = document.getElementById("step").value
+                console.log("value", value);
+                x = x - parseInt(value);
+
+                display(x);
+            }else if(x < 0){
+                document.getElementById("result").innerHTML = "Error Jaa"
+            }
+        }
+            function display(numberDisplay){
+                document.getElementById("result").innerHTML = numberDisplay;
+            }
+
     </script>
 </html>
