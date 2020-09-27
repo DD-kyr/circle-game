@@ -1,0 +1,67 @@
+<html>
+    <head>
+        <title> Welcome to Circle-game1 </title>
+    </head>
+    <body onkeydown="keydown(event)">
+        <canvas id="paper" width="400" height="400" style="border: 1px solid #000000;"></canvas>
+        <button onclick="Clickme()"> Click </button>
+    </body>
+    <script type="text/javascript">
+    //วาดสี่เหลี่ยมในกรอบ
+    //    var canvas = document.getElementById("paper");
+    //    var ctx = canvas.getContext("2d");
+
+    //    ctx.beginPath();
+    //    ctx.rect(100, 100, 200, 200); // x begin, y begin, x size, y size
+    //    ctx.stroke();
+        var canvas = document.getElementById("paper");
+        var game = {max_size: 200, center_x: 200, center_y: 200, init_size: 5, step: 5, is_end: false};
+        //นับเลข_?
+        //let interval = setInterval (() => {
+        //    count++;
+        //    console.log("count >>", count);
+        //}, 1000)
+        let keydown = (event) => {
+            if(event.keyCode == 32){
+                Clickme();
+            }
+        }
+        let grow = () => {
+            if(game. init_size >= game.max_size){
+                endGame();
+            }else{
+                game.init_size = game.init_size + game.step;
+            }
+        }
+        let Clickme = () => {
+            if(game.is_end == false && game.init_size > 0){
+                let _init_size = game.init_size - 10;
+                if(_init_size >= 0){
+                    game.init_size = _init_size;
+                }else{
+                    game.init_size = 5;
+                }
+            }
+        }
+        let draw = () => {
+
+            var ctx = canvas.getContext("2d");
+            ctx.clearRect( 0, 0, canvas.width, canvas.height);
+            ctx.beginPath();
+            ctx.arc(game.center_x, game.center_y, game.init_size, 0, 2 * Math.PI);
+            ctx.fillStyle = "pink";
+            ctx.fill();
+        }
+        let endGame = () => {
+            game.is_end = true;
+            clearInterval(interval);
+        }
+        let time = 0;
+        let interval = setInterval(() => {
+            grow();
+            window.requestAnimationFrame(draw);//สำหรับการวาดอะไรหลายๆรอบ
+            time++;
+            console.log("time >> ", time);
+        }, 500)
+    </script>
+</html>
