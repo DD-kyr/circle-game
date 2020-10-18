@@ -1,0 +1,84 @@
+<html>
+
+<head>
+    <title> Welcome to PDGAME</title>
+</head>
+
+<body onkeyup="keydown(event)">
+    <canvas id="paper" width="400" height="400" style="border: 1px solid #000000;"></canvas>
+    <script type="text/javascript">
+        var canvas = document.getElementById("paper");
+        var game = { max_size: 200, center_x: 200, center_y: 200, init_size: 20, step: 5, is_end: false };
+
+        let keydown = (event) => {
+            if (event.keyCode == 37) {
+                Clickmeleft();
+            }
+            else if (event.keyCode == 39) {
+                Clickmeright();
+            }
+        }
+        let slide = () => {
+            if (game.center_x - game.init_size <= 0) {
+                endGame();
+            } else if (game.center_x + game.init_size >= 400) {
+                endGame();
+            }
+        }
+        let Clickmeleft = () => {
+            if (game.is_end == false && game.init_size >= 0) {
+                let _center_x = game.center_x - 10;
+                if (_center_x > 0) {
+                    game.center_x = _center_x;
+                } else {
+                    endGame();
+                }
+            }
+        }
+        let Clickmeright = () => {
+            if (game.is_end == false && game.init_size <= 400) {
+                let _center_x = game.center_x + 10;
+                if (_center_x < 400) {
+                    game.center_x = _center_x;
+                } else {
+                    endGame();
+                }
+            }
+        }
+        let draw = () => {
+
+            var ctx = canvas.getContext("2d");
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.beginPath();
+            ctx.arc(game.center_x, game.center_y, game.init_size, 0, 2 * Math.PI);
+            ctx.fillStyle = "pink";
+            ctx.fill();
+
+        }
+        let endGame = () => {
+            game.is_end = true;
+            drawend()
+            clearInterval(interval);
+            console.log("end")
+        }
+        let drawend = () => {
+            var end = canvas.getContext("2d");
+            console.log("end text")
+            end.clearRect(0,0 ,canvas.width, canvas.height);
+            end.font = "20pt Grorgia"
+            end.fillStyle = 'green'
+            end.fillText("end! player Left Win!!!!", 100, 100)
+            // if (game.center_x - game.init_size <= 0) { }
+            // else if (game.center_x + game.init_size >= 400) { end.fillText("end! player Right Win!!!!", 200, 200) }
+        }
+        let time = 0;
+        let interval = setInterval(() => {
+            slide();
+            window.requestAnimationFrame(draw);
+            time++;
+            console.log("time >> ", time);
+        }, 50)
+    </script>
+</body>
+
+</html>
